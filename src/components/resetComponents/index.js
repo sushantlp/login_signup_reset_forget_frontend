@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Redirect } from "react-router-dom";
 import { Container } from "semantic-ui-react/dist/commonjs";
 
 // Component
@@ -15,16 +15,23 @@ export default class Index extends React.Component {
       negativeText: undefined,
 
       positiveMessage: false,
-      positiveText: undefined
+      positiveText: undefined,
+
+      hash: undefined
     };
   }
 
   componentWillMount() {
     if (this.props.location.search !== undefined) {
       const search = this.props.location.search; //?logic=$2a$10$q3po3whcOlK0dcr8UeF10uhIzHxA8ZR5FM5Rwqy5fd43HGYHQdM6y
-      console.log(search);
+
+      const take = search.split("?logic=");
+
+      this.setState({
+        hash: take[1]
+      });
     } else {
-      this.props.history.push("/login");
+      return <Redirect to="/login" />;
     }
   }
 
@@ -42,8 +49,8 @@ export default class Index extends React.Component {
     });
   };
 
-  callResetAction = (userEmail, userPassword) => {
-    this.props.resetLogin(userEmail, userPassword);
+  callResetAction = userPassword => {
+    this.props.postReset(this.state.hash, userPassword);
   };
 
   render() {

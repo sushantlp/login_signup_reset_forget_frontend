@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { Button, Input } from "semantic-ui-react/dist/commonjs";
 
@@ -29,6 +29,7 @@ export default class Reset extends React.Component {
         // Call Error Message
         this.props.positiveFunction(true, nextProp.resetReducer.msg);
         this.allStateUpdate(false);
+        return <Redirect to="/login" />;
       } else {
         // Call Error Message
         this.props.negativeFunction(true, nextProp.resetReducer.msg);
