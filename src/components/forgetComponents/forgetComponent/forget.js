@@ -3,37 +3,35 @@ import { Link } from "react-router-dom";
 
 import { Button, Input } from "semantic-ui-react/dist/commonjs";
 
-import "./static/css/login.css";
+import "./static/css/forget.css";
 
 const EMAIL_REG = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-export default class Login extends React.Component {
+export default class Forget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: false,
-      password: false,
-
-      loginLoading: false,
-      loginButton: true,
-
-      userEmail: "",
-      userPassword: ""
+      forgetLoading: false,
+      forgetButton: true,
+      userEmail: ""
     };
   }
 
   componentWillReceiveProps(nextProp) {
+    console.log(this.props);
+    console.log(nextProp);
     if (
-      this.props.loginReducer !== nextProp.loginReducer &&
-      nextProp.loginReducer.status !== "START"
+      this.props.forgetReducer !== nextProp.forgetReducer &&
+      nextProp.forgetReducer.status !== "START"
     ) {
-      if (nextProp.loginReducer.status === "SUCCESS") {
+      if (nextProp.forgetReducer.status === "SUCCESS") {
         // Call Error Message
-        this.props.positiveFunction(true, nextProp.loginReducer.msg);
+        this.props.positiveFunction(true, nextProp.forgetReducer.msg);
         this.allStateUpdate(false);
       } else {
         // Call Error Message
-        this.props.negativeFunction(true, nextProp.loginReducer.msg);
+        this.props.negativeFunction(true, nextProp.forgetReducer.msg);
         this.allStateUpdate(false);
       }
     }
@@ -56,35 +54,28 @@ export default class Login extends React.Component {
       // Update State
       this.setState({
         email: true,
-        password: true,
 
-        loginLoading: true,
-        loginButton: true
+        forgetLoading: true,
+        forgetButton: true
       });
     } else {
       // Update State
       this.setState({
         email: false,
-        password: false,
 
-        loginLoading: false,
-        loginButton: false
+        forgetLoading: false,
+        forgetButton: false
       });
     }
   };
   checkButtonActive = () => {
-    if (
-      this.state.userEmail !== "" &&
-      this.state.userEmail !== undefined &&
-      this.state.userPassword !== "" &&
-      this.state.userPassword !== undefined
-    ) {
+    if (this.state.userEmail !== "" && this.state.userEmail !== undefined) {
       this.setState({
-        loginButton: false
+        forgetButton: false
       });
     } else {
       this.setState({
-        loginButton: true
+        forgetButton: true
       });
     }
   };
@@ -102,30 +93,11 @@ export default class Login extends React.Component {
     );
   };
 
-  // Password Update
-  passwordHandleChange = (event, data) => {
-    this.checkMessageActive();
-    this.setState(
-      {
-        userPassword: data.value
-      },
-      function() {
-        this.checkButtonActive();
-      }
-    );
-  };
-
   // Button Click Call
-  loginClick = () => {
+  forgetClick = () => {
     if (this.state.userEmail === "" || this.state.userEmail === undefined) {
       // Call Error Message
       this.props.negativeFunction(true, "Please fill email");
-    } else if (
-      this.state.userPassword === "" ||
-      this.state.userPassword === undefined
-    ) {
-      // Call Error Message
-      this.props.negativeFunction(true, "Please fill password");
     } else {
       // Validate Email
       if (!EMAIL_REG.test(this.state.userEmail)) {
@@ -135,10 +107,7 @@ export default class Login extends React.Component {
         return;
       } else {
         this.allStateUpdate(true);
-        this.props.callLoginAction(
-          this.state.userEmail,
-          this.state.userPassword
-        );
+        this.props.callForgetAction(this.state.userEmail);
       }
     }
   };
@@ -161,24 +130,9 @@ export default class Login extends React.Component {
           onChange={(event, data) => this.emailHandleChange(event, data)}
         />
 
-        <Input
-          disabled={this.state.password}
-          type="password"
-          style={{
-            width: "450px",
-            height: "50px",
-            marginLeft: "320px",
-            marginRight: "320px",
-            marginBottom: "20px"
-          }}
-          placeholder="Password..."
-          value={this.state.userPassword}
-          onChange={(event, data) => this.passwordHandleChange(event, data)}
-        />
-
         <Button
-          disabled={this.state.loginButton}
-          loading={this.state.loginLoading}
+          disabled={this.state.forgetButton}
+          loading={this.state.forgetLoading}
           style={{
             backgroundColor: "#FF5A5F",
             color: "white",
@@ -192,17 +146,17 @@ export default class Login extends React.Component {
             marginRight: "320px",
             marginBottom: "30px"
           }}
-          onClick={() => this.loginClick()}
+          onClick={() => this.forgetClick()}
         >
-          Login
+          Forget Password
         </Button>
 
         <Link to="/signup">
           <p className="Signup">New to? Sign up</p>
         </Link>
 
-        <Link to="/forget">
-          <p className="Forget">Forget Password</p>
+        <Link to="/login">
+          <p className="Login">Login</p>
         </Link>
       </div>
     );

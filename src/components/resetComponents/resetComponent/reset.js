@@ -3,37 +3,35 @@ import { Link } from "react-router-dom";
 
 import { Button, Input } from "semantic-ui-react/dist/commonjs";
 
-import "./static/css/login.css";
+import "./static/css/reset.css";
 
-const EMAIL_REG = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-
-export default class Login extends React.Component {
+export default class Reset extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: false,
+      confirmPassword: false,
       password: false,
 
-      loginLoading: false,
-      loginButton: true,
+      resetLoading: false,
+      resetButton: true,
 
-      userEmail: "",
+      userConfirmPassword: "",
       userPassword: ""
     };
   }
 
   componentWillReceiveProps(nextProp) {
     if (
-      this.props.loginReducer !== nextProp.loginReducer &&
-      nextProp.loginReducer.status !== "START"
+      this.props.resetReducer !== nextProp.resetReducer &&
+      nextProp.resetReducer.status !== "START"
     ) {
-      if (nextProp.loginReducer.status === "SUCCESS") {
+      if (nextProp.resetReducer.status === "SUCCESS") {
         // Call Error Message
-        this.props.positiveFunction(true, nextProp.loginReducer.msg);
+        this.props.positiveFunction(true, nextProp.resetReducer.msg);
         this.allStateUpdate(false);
       } else {
         // Call Error Message
-        this.props.negativeFunction(true, nextProp.loginReducer.msg);
+        this.props.negativeFunction(true, nextProp.resetReducer.msg);
         this.allStateUpdate(false);
       }
     }
@@ -55,46 +53,46 @@ export default class Login extends React.Component {
     if (status) {
       // Update State
       this.setState({
-        email: true,
+        confirmPassword: true,
         password: true,
 
-        loginLoading: true,
-        loginButton: true
+        resetLoading: true,
+        resetButton: true
       });
     } else {
       // Update State
       this.setState({
-        email: false,
+        confirmPassword: false,
         password: false,
 
-        loginLoading: false,
-        loginButton: false
+        resetLoading: false,
+        resetButton: false
       });
     }
   };
   checkButtonActive = () => {
     if (
-      this.state.userEmail !== "" &&
-      this.state.userEmail !== undefined &&
+      this.state.userConfirmPassword !== "" &&
+      this.state.userConfirmPassword !== undefined &&
       this.state.userPassword !== "" &&
       this.state.userPassword !== undefined
     ) {
       this.setState({
-        loginButton: false
+        resetButton: false
       });
     } else {
       this.setState({
-        loginButton: true
+        resetButton: true
       });
     }
   };
 
-  // Email Update
-  emailHandleChange = (event, data) => {
+  // Confirm Password Update
+  confirmPasswordHandleChange = (event, data) => {
     this.checkMessageActive();
     this.setState(
       {
-        userEmail: data.value
+        userConfirmPassword: data.value
       },
       function() {
         this.checkButtonActive();
@@ -116,10 +114,13 @@ export default class Login extends React.Component {
   };
 
   // Button Click Call
-  loginClick = () => {
-    if (this.state.userEmail === "" || this.state.userEmail === undefined) {
+  resetClick = () => {
+    if (
+      this.state.userConfirmPassword === "" ||
+      this.state.userConfirmPassword === undefined
+    ) {
       // Call Error Message
-      this.props.negativeFunction(true, "Please fill email");
+      this.props.negativeFunction(true, "Please fill confirm password");
     } else if (
       this.state.userPassword === "" ||
       this.state.userPassword === undefined
@@ -127,18 +128,14 @@ export default class Login extends React.Component {
       // Call Error Message
       this.props.negativeFunction(true, "Please fill password");
     } else {
-      // Validate Email
-      if (!EMAIL_REG.test(this.state.userEmail)) {
+      if (this.state.userPassword !== this.state.userConfirmPassword) {
         // Call Error Message
-        this.props.negativeFunction(true, "Invalid Email");
+        this.props.negativeFunction(true, "Password did not match");
 
         return;
       } else {
         this.allStateUpdate(true);
-        this.props.callLoginAction(
-          this.state.userEmail,
-          this.state.userPassword
-        );
+        this.props.callResetAction(this.state.userPassword);
       }
     }
   };
@@ -146,21 +143,6 @@ export default class Login extends React.Component {
   render() {
     return (
       <div>
-        <Input
-          disabled={this.state.email}
-          type="text"
-          style={{
-            width: "450px",
-            height: "50px",
-            marginLeft: "320px",
-            marginRight: "320px",
-            marginBottom: "20px"
-          }}
-          placeholder="Email..."
-          value={this.state.userEmail}
-          onChange={(event, data) => this.emailHandleChange(event, data)}
-        />
-
         <Input
           disabled={this.state.password}
           type="password"
@@ -176,9 +158,26 @@ export default class Login extends React.Component {
           onChange={(event, data) => this.passwordHandleChange(event, data)}
         />
 
+        <Input
+          disabled={this.state.confirmPassword}
+          type="password"
+          style={{
+            width: "450px",
+            height: "50px",
+            marginLeft: "320px",
+            marginRight: "320px",
+            marginBottom: "20px"
+          }}
+          placeholder="Confirm Password..."
+          value={this.state.userConfirmPassword}
+          onChange={(event, data) =>
+            this.confirmPasswordHandleChange(event, data)
+          }
+        />
+
         <Button
-          disabled={this.state.loginButton}
-          loading={this.state.loginLoading}
+          disabled={this.state.resetButton}
+          loading={this.state.resetLoading}
           style={{
             backgroundColor: "#FF5A5F",
             color: "white",
@@ -192,17 +191,17 @@ export default class Login extends React.Component {
             marginRight: "320px",
             marginBottom: "30px"
           }}
-          onClick={() => this.loginClick()}
+          onClick={() => this.resetClick()}
         >
-          Login
+          Reset Password
         </Button>
 
         <Link to="/signup">
           <p className="Signup">New to? Sign up</p>
         </Link>
 
-        <Link to="/forget">
-          <p className="Forget">Forget Password</p>
+        <Link to="/login">
+          <p className="Login">Login</p>
         </Link>
       </div>
     );

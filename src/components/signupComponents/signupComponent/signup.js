@@ -33,7 +33,7 @@ export default class Signup extends React.Component {
     ) {
       if (nextProp.signupReducer.status === "SUCCESS") {
         // Call Error Message
-        this.props.negativeFunction(true, nextProp.signupReducer.msg);
+        this.props.positiveFunction(true, nextProp.signupReducer.msg);
         this.allStateUpdate(false);
       } else {
         // Call Error Message
@@ -185,6 +185,8 @@ export default class Signup extends React.Component {
       } else if (this.state.userPassword !== this.state.userConfirmPassword) {
         // Call Error Message
         this.props.negativeFunction(true, "Password did not match");
+
+        return;
       } else {
         this.allStateUpdate(true);
         this.props.callSignupAction(
@@ -281,10 +283,10 @@ export default class Signup extends React.Component {
         >
           Signup
         </Button>
-        
-        <Link to="/login"><p className="Anchor">Existing User? Log in</p> </Link>
 
-        
+        <Link to="/login">
+          <p className="Anchor">Existing User? Log in</p>{" "}
+        </Link>
       </div>
     );
   }

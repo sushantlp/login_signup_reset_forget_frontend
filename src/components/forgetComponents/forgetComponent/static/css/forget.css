@@ -8,13 +8,13 @@
   color: #7a52c0;
 }
 
-.Forget {
+.Login {
   text-align: center;
   cursor: pointer;
   color: #545252;
   line-height: 30px;
 }
 
-.Forget:hover {
+.Login:hover {
   color: #7a52c0;
 }

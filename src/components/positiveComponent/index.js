@@ -4,9 +4,9 @@ import { Message } from "semantic-ui-react/dist/commonjs";
 
 const Positive = props => {
   return (
-    <Message>
+    <Message positive>
       <Message.Header>Successful</Message.Header>
-      <p>{props.successText}</p>
+      <p>{props.positiveText}</p>
     </Message>
   );
 };
