@@ -6,7 +6,7 @@ const Negative = props => {
   return (
     <Message negative>
       <Message.Header>Oops error</Message.Header>
-      <p>{props.errorText}</p>
+      <p>{props.negativeText}</p>
     </Message>
   );
 };

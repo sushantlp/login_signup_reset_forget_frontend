@@ -277,14 +277,14 @@ export default class Signup extends React.Component {
             marginRight: "320px",
             marginBottom: "30px"
           }}
-          onClick={() => this.otpSignupClick()}
+          onClick={() => this.loginClick()}
         >
           Signup
         </Button>
-        
-        <Link to="/login"><p className="Anchor">Existing User? Log in</p> </Link>
 
-        
+        <Link to="/signup">
+          <p className="Anchor">New to? Sign up</p>{" "}
+        </Link>
       </div>
     );
   }

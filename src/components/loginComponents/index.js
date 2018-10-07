@@ -3,7 +3,7 @@ import React from "react";
 import { Container } from "semantic-ui-react/dist/commonjs";
 
 // Component
-import Signup from "./signupComponent/signup";
+import Login from "./loginComponent/login";
 import Negative from "../negativeComponent";
 import Positive from "../positiveComponent";
 
@@ -33,8 +33,8 @@ export default class Index extends React.Component {
     });
   };
 
-  callSignupAction = (userName, userEmail, userPassword) => {
-    this.props.postSignup(userName, userEmail, userPassword);
+  callLoginAction = (userEmail, userPassword) => {
+    this.props.postLogin(userEmail, userPassword);
   };
 
   render() {
@@ -49,7 +49,7 @@ export default class Index extends React.Component {
             paddingBottom: "40px"
           }}
         >
-          Signup
+          Login
         </h1>
 
         {this.state.negativeMessage ? (
@@ -64,11 +64,11 @@ export default class Index extends React.Component {
           </Container>
         ) : null}
 
-        <Signup
-          signupReducer={this.props.signupReducer}
+        <Login
+          loginReducer={this.props.loginReducer}
           negativeFunction={this.negativeFunction}
           positiveFunction={this.positiveFunction}
-          callSignupAction={this.callSignupAction}
+          callLoginAction={this.callLoginAction}
           parentState={this.state}
         />
       </Container>

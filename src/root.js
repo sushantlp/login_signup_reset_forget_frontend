@@ -5,16 +5,17 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./root.css";
 
+import Signup from "./containers/signupContainer";
+
 // Router root
 const Root = ({ store }) => (
   <Provider store={store}>
     <BrowserRouter>
       <div>
         <Switch>
-          <Route exact path="/web" component={Background} />
-          <Route exact path="/web/terms" component={Terms} />
-          <Route exact path="/web/privacy" component={Privacy} />
-          <Route exact path="/web/faq" component={Faq} />
+          <Route exact path="/signup" component={Signup} />
+
+          <Redirect from="/" to="/login" />
         </Switch>
       </div>
     </BrowserRouter>

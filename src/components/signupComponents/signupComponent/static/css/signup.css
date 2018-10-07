@@ -1,0 +1,8 @@
+.Anchor {
+  text-align: center;
+  cursor: pointer;
+}
+
+.Anchor:hover {
+  color: #7a52c0;
+}
